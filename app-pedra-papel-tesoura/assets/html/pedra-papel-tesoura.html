@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedra, papel e tesoura</title>
+    <script src="../js/pedra-papel-tessoura.js" defer></script>
+
+</head>
+
+<body>
+    <style>
+        .vencedor {
+            text-align: center;
+        }
+
+        .player-options img,
+        .enemy-options img {
+            max-width: 200px;
+            opacity: 0.3;
+            cursor: pointer;
+        }
+
+        .player-options,
+        enemy-options {
+            width: 50%;
+        }
+
+        .align {
+            display: flex;
+            text-align: center;
+        }
+    </style>
+
+
+    <h1 style="text-align: center;">Pedra, papel e tesora</h1>
+    <hr>
+
+    <div class="vencedor">
+        <h1>Você venceu!</h1>
+    </div>
+
+    <div class="align">
+        <div class="player-options">
+            <div><img opt="papel" src="../img/paper.png"> </div>
+            <div><img opt="pedra" src="../img/rock.png"></div>
+            <div><img opt="tesoura" src="../img/scisor.png"> </div>
+        </div><!--player-optioins-->
+
+        <div class="enemy-options">
+            <div><img opt="papel" src="../img/paper.png"> </div>
+            <div><img opt="pedra" src="../img/rock.png"></div>
+            <div><img opt="tesoura" src="../img/scisor.png"> </div>
+        </div><!--enemy-optioins-->
+    </div><!--align-->
+
+    <script>
+        const playerOptions = document.querySelectorAll('.player-options div > img');
+        const enemyOptions = document.querySelectorAll('.enemy-options div > img');
+
+        let playerOpt = "";
+        let enemyOpt = "";
+
+        const vencedor = document.querySelector('.vencedor > h1');
+        vencedor.innerHTML = ""
+
+        function validarVitoria() {
+
+            if (playerOpt == "papel") {
+
+                if (enemyOpt == "papel") {
+                    vencedor.innerHTML = "Empate"
+                } else if (enemyOpt == "pedra") {
+                    vencedor.innerHTML = "Você venceu!"
+                } else if (enemyOpt == "tesoura") {
+                    vencedor.innerHTML = "Você perdeu!"
+                }
+            } else if (playerOpt == "pedra") {
+
+                if (enemyOpt == "papel") {
+                    vencedor.innerHTML = "Você perdeu!"
+                } else if (enemyOpt == "pedra") {
+                    vencedor.innerHTML = "Empate"
+                } else if (enemyOpt == "tesoura") {
+                    vencedor.innerHTML = "Você venceu!"
+                }
+            } else if (playerOpt == "tesoura") {
+
+                if (enemyOpt == "papel") {
+                    vencedor.innerHTML = "Você venceu!"
+                } else if (enemyOpt == "pedra") {
+                    vencedor.innerHTML = "Você perdeu!"
+                } else if (enemyOpt == "tesoura") {
+                    vencedor.innerHTML = "Empate"
+                }
+            }
+
+        }
+
+        function resetOpacityPlayer() {
+            for (let i = 0; i < playerOptions.length; i++) {
+                playerOptions[i].style.opacity = 0.3;
+            }
+        }
+        function resetOpacityEnemy() {
+            for (let i = 0; i < enemyOptions.length; i++) {
+                enemyOptions[i].style.opacity = 0.3;
+            }
+        }
+        function inimigoJogar() {
+
+            resetOpacityEnemy();
+
+            let rand = Math.floor(Math.random() * 3);
+
+            for (let i = 0; i < enemyOptions.length; i++) {
+                if (i == rand) {
+                    enemyOptions[i].style.opacity = 1;
+                    enemyOpt = enemyOptions[i].getAttribute('opt');
+                }
+            }
+
+            validarVitoria()
+
+        };
+
+        for (let i = 0; i < playerOptions.length; i++) {
+            playerOptions[i].addEventListener("click", (event) => {
+                resetOpacityPlayer();
+                event.target.style.opacity = 1;
+                playerOpt = event.target.getAttribute('opt');
+
+                inimigoJogar();
+
+
+            });
+        }
+
+
+
+
+        //Math.random - retorna um n° aleatório decimal entre 0(inclusive)
+        // Math.floor - arredonda um n° decimal para o inteiro mais próximo para baixo.
+        //childNodes - é uma propriedade que retorna uma NodeList com todas os nós filhos de um elemento HTML. <sintaxe> - element.childNodes[0] (leva em conta espaços, quebra de linha e textos, além dos elementos html)
+        //children - mesma coisa que o childNodes, msa só leva em conta os elementos html(ignorando textos, espaços e comentários).
+
+    </script>
+
+</body>
+
+</html>
